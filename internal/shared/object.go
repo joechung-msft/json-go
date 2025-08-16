@@ -17,7 +17,7 @@ func parseObject(object string) ObjectToken {
 		mode    = Scanning
 		pos     int
 		slice   string
-		token   = Object{members: nil}
+		token   = Object{Members: nil}
 	)
 
 	for pos < len(object) && mode != End {
@@ -38,7 +38,7 @@ func parseObject(object string) ObjectToken {
 			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
 				pos++
 			} else if ch == "}" {
-				if len(token.members) > 0 {
+				if len(token.Members) > 0 {
 					panic("Unexpected ','")
 				}
 
@@ -47,8 +47,8 @@ func parseObject(object string) ObjectToken {
 			} else {
 				slice = object[pos:]
 				pairToken := parsePair(slice, "[\\s,\\}]")
-				token.members = append(token.members, pairToken)
-				pos += pairToken.skip
+				token.Members = append(token.Members, pairToken)
+				pos += pairToken.Skip
 				mode = Delimiter
 			}
 
@@ -72,5 +72,5 @@ func parseObject(object string) ObjectToken {
 		}
 	}
 
-	return ObjectToken{skip: pos, token: token}
+	return ObjectToken{Skip: pos, Token: token}
 }

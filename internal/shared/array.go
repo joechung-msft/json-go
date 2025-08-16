@@ -17,7 +17,7 @@ func parseArray(array string) ArrayToken {
 		mode    = Scanning
 		pos     int
 		slice   string
-		token   = Array{values: nil}
+		token   = Array{Values: nil}
 	)
 
 	for pos < len(array) && mode != End {
@@ -42,7 +42,7 @@ func parseArray(array string) ArrayToken {
 			if matched {
 				pos++
 			} else if ch == "]" {
-				if len(token.values) > 0 {
+				if len(token.Values) > 0 {
 					panic("Unexpected ','")
 				}
 
@@ -51,8 +51,8 @@ func parseArray(array string) ArrayToken {
 			} else {
 				slice = array[pos:]
 				valueToken := parseValue(slice, "[,\\]\\s]")
-				token.values = append(token.values, valueToken)
-				pos += valueToken.skip
+				token.Values = append(token.Values, valueToken)
+				pos += valueToken.Skip
 				mode = Delimiter
 			}
 
@@ -78,5 +78,5 @@ func parseArray(array string) ArrayToken {
 		}
 	}
 
-	return ArrayToken{skip: pos, token: token}
+	return ArrayToken{Skip: pos, Token: token}
 }

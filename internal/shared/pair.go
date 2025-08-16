@@ -35,8 +35,8 @@ func parsePair(pair string, delimiters string) PairToken {
 		case String:
 			slice = pair[pos:]
 			stringToken := parseString(slice)
-			token.key = stringToken
-			pos += stringToken.skip
+			token.Key = stringToken
+			pos += stringToken.Skip
 			mode = Delimiter
 
 		case Delimiter:
@@ -52,8 +52,8 @@ func parsePair(pair string, delimiters string) PairToken {
 		case Value:
 			slice = pair[pos:]
 			valueToken := parseValue(slice, delimiters)
-			token.value = valueToken
-			pos += valueToken.skip
+			token.Value = valueToken
+			pos += valueToken.Skip
 			mode = End
 
 		case End:
@@ -63,5 +63,5 @@ func parsePair(pair string, delimiters string) PairToken {
 		}
 	}
 
-	return PairToken{skip: pos, token: token}
+	return PairToken{Skip: pos, Token: token}
 }

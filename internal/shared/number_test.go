@@ -5,7 +5,7 @@ import (
 )
 
 func TestNumber(t *testing.T) {
-	if !isNumberToken(Parse("0").token) {
+	if !isNumberToken(Parse("0").Token) {
 		t.Error("0 should be a NumberToken")
 	}
 }
@@ -38,16 +38,16 @@ func TestZeroes(t *testing.T) {
 		"-0.0e-0",
 	}
 	for _, zero := range zeroes {
-		token := Parse(zero).token
+		token := Parse(zero).Token
 		if !isNumberToken(token) {
 			t.Errorf("%s should be a NumberToken", zero)
 		}
 
 		numberToken := token.(NumberToken)
-		number := numberToken.token
-		if number.valueAsString != zero {
-			t.Errorf("%s should equal %s", number.valueAsString, zero)
-		} else if number.value != 0 {
+		number := numberToken.Token
+		if number.ValueAsString != zero {
+			t.Errorf("%s should equal %s", number.ValueAsString, zero)
+		} else if number.Value != 0 {
 			t.Errorf("%s should equal 0", zero)
 		}
 	}

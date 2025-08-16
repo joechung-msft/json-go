@@ -7,7 +7,7 @@ import (
 func TestFalse(t *testing.T) {
 	actual := Parse("false")
 
-	switch interface{}(actual.token).(type) {
+	switch interface{}(actual.Token).(type) {
 	case FalseToken:
 
 	default:
@@ -18,7 +18,7 @@ func TestFalse(t *testing.T) {
 func TestNull(t *testing.T) {
 	actual := Parse("null")
 
-	switch interface{}(actual.token).(type) {
+	switch interface{}(actual.Token).(type) {
 	case NullToken:
 
 	default:
@@ -29,7 +29,7 @@ func TestNull(t *testing.T) {
 func TestTrue(t *testing.T) {
 	actual := Parse("true")
 
-	switch interface{}(actual.token).(type) {
+	switch interface{}(actual.Token).(type) {
 	case TrueToken:
 
 	default:

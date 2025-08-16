@@ -2,20 +2,43 @@
 package main
 
 import (
-	"bufio"
+	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 
 	shared "github.com/joechung-msft/json-go/internal/shared"
 )
 
 func main() {
-	fmt.Println("Enter JSON to parse:")
-	scanner := bufio.NewScanner(os.Stdin)
-	if scanner.Scan() {
-		input := scanner.Text()
-		result := shared.Parse(input)
-		fmt.Println("\nParse result:")
-		fmt.Printf("%#v\n", result)
+	input, err := io.ReadAll(os.Stdin)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
+	result, err := safeParse(string(input))
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	pretty, err := json.MarshalIndent(result, "", "  ")
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	fmt.Fprintln(os.Stdout, string(pretty))
+}
+
+func safeParse(input string) (interface{}, error) {
+	var panicErr error
+	defer func() {
+		if r := recover(); r != nil {
+			panicErr = fmt.Errorf("%v", r)
+		}
+	}()
+	result := shared.Parse(input)
+	if panicErr != nil {
+		return nil, panicErr
+	}
+	return result, nil
 }

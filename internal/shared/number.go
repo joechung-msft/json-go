@@ -24,7 +24,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		matched bool
 		mode    = Scanning
 		pos     int
-		token   = Number{value: math.NaN(), valueAsString: ""}
+		token   = Number{Value: math.NaN(), ValueAsString: ""}
 	)
 
 	for pos < len(number) && mode != End {
@@ -36,7 +36,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 				pos++
 			} else if ch == "-" {
 				pos++
-				token.valueAsString += "-"
+				token.ValueAsString += "-"
 			}
 
 			mode = Characteristic
@@ -44,11 +44,11 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case Characteristic:
 			if ch == "0" {
 				pos++
-				token.valueAsString += "0"
+				token.ValueAsString += "0"
 				mode = DecimalPoint
 			} else if matched, _ = regexp.MatchString("[1-9]", ch); matched {
 				pos++
-				token.valueAsString += ch
+				token.ValueAsString += ch
 				mode = CharacteristicDigit
 			} else {
 				panic("Expected digit")
@@ -57,7 +57,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case CharacteristicDigit:
 			if matched, _ = regexp.MatchString("\\d", ch); matched {
 				pos++
-				token.valueAsString += ch
+				token.ValueAsString += ch
 			} else if matchDelimiters(delimiters, ch) {
 				mode = End
 			} else {
@@ -67,7 +67,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case DecimalPoint:
 			if ch == "." {
 				pos++
-				token.valueAsString += "."
+				token.ValueAsString += "."
 				mode = Mantissa
 			} else if matchDelimiters(delimiters, ch) {
 				mode = End
@@ -78,7 +78,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case Mantissa:
 			if matched, _ = regexp.MatchString("\\d", ch); matched {
 				pos++
-				token.valueAsString += ch
+				token.ValueAsString += ch
 			} else if matched, _ = regexp.MatchString("[eE]", ch); matched {
 				mode = Exponent
 			} else if matchDelimiters(delimiters, ch) {
@@ -90,7 +90,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case Exponent:
 			if ch == "e" || ch == "E" {
 				pos++
-				token.valueAsString += "e"
+				token.ValueAsString += "e"
 				mode = ExponentSign
 			} else {
 				panic("Expected 'e' or 'E'")
@@ -99,7 +99,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case ExponentSign:
 			if ch == "+" || ch == "-" {
 				pos++
-				token.valueAsString += ch
+				token.ValueAsString += ch
 			}
 
 			mode = ExponentFirstDigit
@@ -107,7 +107,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case ExponentFirstDigit:
 			if matched, _ = regexp.MatchString("\\d", ch); matched {
 				pos++
-				token.valueAsString += ch
+				token.ValueAsString += ch
 				mode = ExponentDigits
 			} else {
 				panic("Expected digit")
@@ -116,7 +116,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 		case ExponentDigits:
 			if matched, _ = regexp.MatchString("\\d", ch); matched {
 				pos++
-				token.valueAsString += ch
+				token.ValueAsString += ch
 			} else if matchDelimiters(delimiters, ch) {
 				mode = End
 			} else {
@@ -133,12 +133,12 @@ func parseNumber(number string, delimiters string) NumberToken {
 	if mode == Characteristic || mode == ExponentFirstDigit {
 		panic("Incomplete expression")
 	} else {
-		if value, err := strconv.ParseFloat(token.valueAsString, 64); err != nil {
+		if value, err := strconv.ParseFloat(token.ValueAsString, 64); err != nil {
 			panic(err)
 		} else {
-			token.value = value
+			token.Value = value
 		}
 	}
 
-	return NumberToken{skip: pos, token: token}
+	return NumberToken{Skip: pos, Token: token}
 }

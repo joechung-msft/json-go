@@ -34,7 +34,7 @@ func Parse(json string) ValueToken {
 		case Value:
 			slice = json[pos:]
 			token = parseValue(slice, "")
-			pos += token.skip
+			pos += token.Skip
 			mode = End
 
 		case End:

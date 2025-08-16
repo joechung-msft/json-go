@@ -7,7 +7,7 @@ import (
 func TestObject(t *testing.T) {
 	actual := Parse("{}")
 
-	switch interface{}(actual.token).(type) {
+	switch interface{}(actual.Token).(type) {
 	case ObjectToken:
 
 	default:

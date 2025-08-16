@@ -99,5 +99,5 @@ func parseString(s string) StringToken {
 		}
 	}
 
-	return StringToken{skip: pos, token: token}
+	return StringToken{Skip: pos, Token: token}
 }

@@ -7,7 +7,7 @@ import (
 func TestString(t *testing.T) {
 	actual := Parse("\"Hello, world!\"")
 
-	switch interface{}(actual.token).(type) {
+	switch interface{}(actual.Token).(type) {
 	case StringToken:
 
 	default:

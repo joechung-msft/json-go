@@ -7,7 +7,7 @@ import (
 func TestArray(t *testing.T) {
 	actual := Parse("[]")
 
-	switch interface{}(actual.token).(type) {
+	switch interface{}(actual.Token).(type) {
 	case ArrayToken:
 
 	default:

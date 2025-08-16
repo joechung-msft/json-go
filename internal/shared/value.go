@@ -56,13 +56,13 @@ func parseValue(value string, delimiters string) ValueToken {
 			slice = value[pos:]
 			arrayToken := parseArray(slice)
 			token = arrayToken
-			pos += arrayToken.skip
+			pos += arrayToken.Skip
 			mode = End
 
 		case False:
 			slice = value[pos : pos+5]
 			if slice == "false" {
-				token = FalseToken{value: false}
+				token = FalseToken{Value: false}
 				pos += 5
 				mode = End
 			} else {
@@ -72,7 +72,7 @@ func parseValue(value string, delimiters string) ValueToken {
 		case Null:
 			slice = value[pos : pos+4]
 			if slice == "null" {
-				token = NullToken{value: nil}
+				token = NullToken{Value: nil}
 				pos += 4
 				mode = End
 			} else {
@@ -83,27 +83,27 @@ func parseValue(value string, delimiters string) ValueToken {
 			slice = value[pos:]
 			numberToken := parseNumber(slice, delimitersForNumbers(delimiters))
 			token = numberToken
-			pos += numberToken.skip
+			pos += numberToken.Skip
 			mode = End
 
 		case Object:
 			slice = value[pos:]
 			objectToken := parseObject(slice)
 			token = objectToken
-			pos += objectToken.skip
+			pos += objectToken.Skip
 			mode = End
 
 		case String:
 			slice = value[pos:]
 			stringToken := parseString(slice)
 			token = stringToken
-			pos += stringToken.skip
+			pos += stringToken.Skip
 			mode = End
 
 		case True:
 			slice = value[pos : pos+4]
 			if slice == "true" {
-				token = TrueToken{value: true}
+				token = TrueToken{Value: true}
 				pos += 4
 				mode = End
 			} else {
@@ -117,5 +117,5 @@ func parseValue(value string, delimiters string) ValueToken {
 		}
 	}
 
-	return ValueToken{skip: pos, token: token}
+	return ValueToken{Skip: pos, Token: token}
 }
