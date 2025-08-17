@@ -1,3 +1,4 @@
 *.exe
 *.out
-coverage
+coverage.html
+coverage.out
