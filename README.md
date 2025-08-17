@@ -18,16 +18,24 @@ MIT
 go build ./...
 ```
 
+## Lint code
+
+To lint your Go code for common issues:
+
+```sh
+go vet ./...
+```
+
+Or use [golangci-lint](https://github.com/golangci/golangci-lint):
+
+```sh
+golangci-lint run ./...
+```
+
 ### Format code
 
 ```sh
 go fmt ./...
-```
-
-### Run the CLI
-
-```sh
-go run cmd/cli/main.go
 ```
 
 ### Run tests
@@ -44,3 +52,25 @@ To measure test coverage:
 go test -coverprofile="coverage.out" ./...
 go tool cover -html="coverage.out" -o="coverage.html"
 ```
+
+### Run the CLI
+
+```sh
+go run cmd/cli/main.go
+```
+
+### Run the Echo API server
+
+To start the Echo API server:
+
+```sh
+go run cmd/api-echo/main.go
+```
+
+## Test Echo API with .http Requests
+
+You can test the Echo API endpoints using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VSCode.
+
+1. Install the REST Client extension.
+2. Open any `.rest` file in `testdata/`.
+3. Click "Send Request" above the desired request to test the API.

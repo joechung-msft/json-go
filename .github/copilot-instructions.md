@@ -14,6 +14,7 @@
 - `internal/shared/array.go`, `object.go`, `number.go`, `string.go`: Parsing logic for each JSON type.
 - `internal/shared/helpers.go`: Utility functions for delimiter handling and regex matching.
 - Tests for each type are in corresponding `*_test.go` files.
+- Shared API/server test data is located in the `testdata/` folder at the project root.
 
 ## Developer Workflows
 
