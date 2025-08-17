@@ -26,6 +26,8 @@
 - **Test:**
   - Run all tests: `go test ./...`
   - Individual test files follow Go's standard `*_test.go` convention.
+- **Test Coverage:**
+  - Measure coverage: `go test -cover ./...`
 - **Debugging:**
   - Parsing errors use `panic` for unexpected input or state. Check error messages for mode/state context.
 

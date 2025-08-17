@@ -35,3 +35,11 @@ go run cmd/cli/main.go
 ```sh
 go test ./...
 ```
+
+### Test Coverage
+
+To measure test coverage:
+
+```sh
+go test -cover ./...
+```
