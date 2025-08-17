@@ -31,5 +31,11 @@ jobs:
       - name: Build
         run: go build ./...
 
-      - name: Run tests
-        run: go test ./...
+      - name: Run tests and generate coverage
+        run: go test -coverprofile="coverage-go-${{ matrix.go-version }}.out" ./...
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: "coverage-go-${{ matrix.go-version }}.out"
