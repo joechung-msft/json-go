@@ -2,7 +2,8 @@
 
 ## 2025-08-17
 
-- Implement simple API server with Echo
+- Add Echo API server
+- Add Gin API server
 
 ## 2025-08-16
 

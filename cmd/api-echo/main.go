@@ -14,7 +14,7 @@ import (
 func main() {
 	e := echo.New()
 
-	e.POST("/api/v1/echo", func(c echo.Context) error {
+	e.POST("/api/v1/parse", func(c echo.Context) error {
 		bodyBytes, err := io.ReadAll(c.Request().Body)
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, map[string]any{"error": "Failed to read request body", "code": 400})

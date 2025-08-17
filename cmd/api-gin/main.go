@@ -1,0 +1,39 @@
+package main
+
+import (
+	"io"
+	"net/http"
+
+	"github.com/joechung-msft/json-go/internal/shared"
+
+	"github.com/gin-gonic/gin"
+)
+
+// https://gin-gonic.com/
+func main() {
+	router := gin.Default()
+
+	router.POST("/api/v1/parse", func(c *gin.Context) {
+		body, err := io.ReadAll(c.Request.Body)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read request body", "code": 400})
+			return
+		}
+		jsonString := string(body)
+
+		var result any
+		defer func() {
+			if r := recover(); r != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON", "code": 400})
+				result = nil
+			}
+		}()
+		result = shared.Parse(jsonString)
+
+		c.JSON(http.StatusOK, result)
+	})
+
+	if err := router.Run(); err != nil {
+		panic(err)
+	}
+}

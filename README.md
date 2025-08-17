@@ -61,9 +61,17 @@ To start the Echo API server:
 go run cmd/api-echo/main.go
 ```
 
-## Test Echo API with .http Requests
+### Run the Gin API server
 
-You can test the Echo API endpoints using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VSCode.
+To start the Gin API server:
+
+```sh
+go run cmd/api-gin/main.go
+```
+
+## Test API with .http Requests
+
+You can test either Gin and Echo API endpoints using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VSCode.
 
 1. Install the REST Client extension.
 2. Open any `.rest` file in `testdata/`.

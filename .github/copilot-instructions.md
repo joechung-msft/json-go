@@ -45,6 +45,54 @@
 - No external APIs or services; the parser is self-contained.
 - The CLI directory (`cmd/cli/`) provides a command-line interface for parsing JSON input interactively.
 
+## API Servers: Gin & Echo
+
+- **Gin API server:** `cmd/api-gin/main.go`
+- **Echo API server:** `cmd/api-echo/main.go`
+- Both servers expose a `POST /parse` endpoint that accepts arbitrary JSON, parses it, and returns the result as JSON.
+
+### Example Request
+
+```http
+POST http://localhost:8080/parse
+Content-Type: application/json
+
+{
+  "foo": "bar"
+}
+```
+
+### Example Success Response
+
+```json
+{
+  "foo": "bar"
+}
+```
+
+### Example Error Response
+
+```json
+{
+  "error": "Failed to read request body",
+  "code": 400
+}
+```
+
+or
+
+```json
+{
+  "error": "parsing error message",
+  "code": 400
+}
+```
+
+### Testing
+
+- Use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VSCode.
+- Open any `.rest` file in `testdata/` and send requests to test the API endpoints.
+
 ## Example Usage
 
 ```go
