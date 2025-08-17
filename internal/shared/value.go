@@ -18,11 +18,12 @@ func parseValue(value string, delimiters string) ValueToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		slice   string
-		token   interface{}
+		mode         = Scanning
+		pos          int
+		slice        string
+		token        any
+		spaceRegexp  = regexp.MustCompile(`[ \n\r\t]`)
+		numberRegexp = regexp.MustCompile(`[-\d]`)
 	)
 
 	for pos < len(value) && mode != End {
@@ -30,7 +31,7 @@ func parseValue(value string, delimiters string) ValueToken {
 
 		switch mode {
 		case Scanning:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if spaceRegexp.MatchString(ch) {
 				pos++
 			} else if ch == "[" {
 				mode = Array
@@ -38,7 +39,7 @@ func parseValue(value string, delimiters string) ValueToken {
 				mode = False
 			} else if ch == "n" {
 				mode = Null
-			} else if matched, _ = regexp.MatchString("[-\\d]", ch); matched {
+			} else if numberRegexp.MatchString(ch) {
 				mode = Number
 			} else if ch == "{" {
 				mode = Object
@@ -49,7 +50,7 @@ func parseValue(value string, delimiters string) ValueToken {
 			} else if matchDelimiters(delimiters, ch) {
 				mode = End
 			} else {
-				panic("Unexpected character")
+				panic("Unexpected character in value: " + ch)
 			}
 
 		case Array:
@@ -60,6 +61,9 @@ func parseValue(value string, delimiters string) ValueToken {
 			mode = End
 
 		case False:
+			if pos+5 > len(value) {
+				panic("Unexpected end of input when parsing 'false'")
+			}
 			slice = value[pos : pos+5]
 			if slice == "false" {
 				token = FalseToken{Value: false}
@@ -70,6 +74,9 @@ func parseValue(value string, delimiters string) ValueToken {
 			}
 
 		case Null:
+			if pos+4 > len(value) {
+				panic("Unexpected end of input when parsing 'null'")
+			}
 			slice = value[pos : pos+4]
 			if slice == "null" {
 				token = NullToken{Value: nil}
@@ -101,6 +108,9 @@ func parseValue(value string, delimiters string) ValueToken {
 			mode = End
 
 		case True:
+			if pos+4 > len(value) {
+				panic("Unexpected end of input when parsing 'true'")
+			}
 			slice = value[pos : pos+4]
 			if slice == "true" {
 				token = TrueToken{Value: true}

@@ -18,7 +18,7 @@ type FalseToken struct {
 
 // NullToken is a JSON null token
 type NullToken struct {
-	Value interface{}
+	Value any
 }
 
 // Number is a JSON number
@@ -70,5 +70,5 @@ type TrueToken struct {
 // ValueToken is a JSON value token
 type ValueToken struct {
 	Skip  int
-	Token interface{}
+	Token any
 }

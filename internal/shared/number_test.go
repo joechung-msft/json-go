@@ -53,8 +53,8 @@ func TestZeroes(t *testing.T) {
 	}
 }
 
-func isNumberToken(token interface{}) bool {
-	switch interface{}(token).(type) {
+func isNumberToken(token any) bool {
+	switch any(token).(type) {
 	case NumberToken:
 		return true
 	default:

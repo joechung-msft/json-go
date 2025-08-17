@@ -13,11 +13,12 @@ func Parse(json string) ValueToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		slice   string
-		token   ValueToken
+		matched         bool
+		mode            = Scanning
+		pos             int
+		slice           string
+		token           ValueToken
+		whitespaceRegex = regexp.MustCompile(`[ \n\r\t]`)
 	)
 
 	for pos < len(json) && mode != End {
@@ -25,7 +26,7 @@ func Parse(json string) ValueToken {
 
 		switch mode {
 		case Scanning:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if matched = whitespaceRegex.MatchString(ch); matched {
 				pos++
 			} else {
 				mode = Value

@@ -29,7 +29,7 @@ func main() {
 	fmt.Fprintln(os.Stdout, string(pretty))
 }
 
-func safeParse(input string) (interface{}, error) {
+func safeParse(input string) (any, error) {
 	var panicErr error
 	defer func() {
 		if r := recover(); r != nil {

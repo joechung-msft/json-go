@@ -7,11 +7,11 @@ import (
 func TestArray(t *testing.T) {
 	actual := Parse("[]")
 
-	switch interface{}(actual.Token).(type) {
+	switch any(actual.Token).(type) {
 	case ArrayToken:
 
 	default:
-		t.Error("[] should be an ArrayToken")
+		t.Error("[] should be an Array")
 	}
 }
 
@@ -28,9 +28,9 @@ func TestDanglingCommaInArray(t *testing.T) {
 func TestInvalidArray(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
-			t.Error("1 should have caused a panic")
+			t.Error("[,] should have caused a panic")
 		}
 	}()
 
-	parseArray("1")
+	Parse("[,]")
 }

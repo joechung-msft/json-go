@@ -15,11 +15,11 @@ func parseString(s string) StringToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		slice   string
-		token   string
+		mode        = Scanning
+		pos         int
+		slice       string
+		token       string
+		spaceRegexp = regexp.MustCompile(`[ \n\r\t]`)
 	)
 
 	for pos < len(s) && mode != End {
@@ -27,7 +27,7 @@ func parseString(s string) StringToken {
 
 		switch mode {
 		case Scanning:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if spaceRegexp.MatchString(ch) {
 				pos++
 			} else if ch == "\"" {
 				pos++
@@ -51,34 +51,35 @@ func parseString(s string) StringToken {
 			}
 
 		case EscapedCharacter:
-			if ch == "\"" || ch == "\\" || ch == "/" {
+			switch ch {
+			case "\"", "\\", "/":
 				token += ch
 				pos++
 				mode = Character
-			} else if ch == "b" {
+			case "b":
 				token += "\b"
 				pos++
 				mode = Character
-			} else if ch == "f" {
+			case "f":
 				token += "\f"
 				pos++
 				mode = Character
-			} else if ch == "n" {
+			case "n":
 				token += "\n"
 				pos++
 				mode = Character
-			} else if ch == "r" {
+			case "r":
 				token += "\r"
 				pos++
 				mode = Character
-			} else if ch == "t" {
+			case "t":
 				token += "\t"
 				pos++
 				mode = Character
-			} else if ch == "u" {
+			case "u":
 				pos++
 				mode = Unicode
-			} else {
+			default:
 				panic("Unexpected escape character")
 			}
 

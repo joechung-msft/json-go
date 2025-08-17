@@ -14,11 +14,11 @@ func parsePair(pair string, delimiters string) PairToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		slice   string
-		token   Pair
+		mode         = Scanning
+		pos          int
+		slice        string
+		token        Pair
+		whitespaceRE = regexp.MustCompile(`[ \n\r\t]`)
 	)
 
 	for pos < len(pair) && mode != End {
@@ -26,7 +26,7 @@ func parsePair(pair string, delimiters string) PairToken {
 
 		switch mode {
 		case Scanning:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if whitespaceRE.MatchString(ch) {
 				pos++
 			} else {
 				mode = String
@@ -40,7 +40,7 @@ func parsePair(pair string, delimiters string) PairToken {
 			mode = Delimiter
 
 		case Delimiter:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if whitespaceRE.MatchString(ch) {
 				pos++
 			} else if ch == ":" {
 				pos++

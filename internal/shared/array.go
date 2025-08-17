@@ -13,11 +13,12 @@ func parseArray(array string) ArrayToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		slice   string
-		token   = Array{Values: nil}
+		matched      bool
+		mode         = Scanning
+		pos          int
+		slice        string
+		token        = Array{Values: nil}
+		whitespaceRE = regexp.MustCompile(`[ \n\r\t]`)
 	)
 
 	for pos < len(array) && mode != End {
@@ -25,9 +26,7 @@ func parseArray(array string) ArrayToken {
 
 		switch mode {
 		case Scanning:
-			matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch)
-
-			if matched {
+			if matched = whitespaceRE.MatchString(ch); matched {
 				pos++
 			} else if ch == "[" {
 				pos++
@@ -37,9 +36,7 @@ func parseArray(array string) ArrayToken {
 			}
 
 		case Elements:
-			matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch)
-
-			if matched {
+			if matched = whitespaceRE.MatchString(ch); matched {
 				pos++
 			} else if ch == "]" {
 				if len(token.Values) > 0 {
@@ -57,9 +54,7 @@ func parseArray(array string) ArrayToken {
 			}
 
 		case Delimiter:
-			matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch)
-
-			if matched {
+			if matched = whitespaceRE.MatchString(ch); matched {
 				pos++
 			} else if ch == "]" {
 				pos++

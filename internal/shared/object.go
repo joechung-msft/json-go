@@ -4,6 +4,8 @@ import (
 	"regexp"
 )
 
+var whitespaceRegex = regexp.MustCompile(`[ \n\r\t]`)
+
 func parseObject(object string) ObjectToken {
 	const (
 		Scanning = 1 + iota
@@ -13,11 +15,10 @@ func parseObject(object string) ObjectToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		slice   string
-		token   = Object{Members: nil}
+		mode  = Scanning
+		pos   int
+		slice string
+		token = Object{Members: nil}
 	)
 
 	for pos < len(object) && mode != End {
@@ -25,7 +26,7 @@ func parseObject(object string) ObjectToken {
 
 		switch mode {
 		case Scanning:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if whitespaceRegex.MatchString(ch) {
 				pos++
 			} else if ch == "{" {
 				pos++
@@ -35,7 +36,7 @@ func parseObject(object string) ObjectToken {
 			}
 
 		case Pair:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if whitespaceRegex.MatchString(ch) {
 				pos++
 			} else if ch == "}" {
 				if len(token.Members) > 0 {
@@ -53,7 +54,7 @@ func parseObject(object string) ObjectToken {
 			}
 
 		case Delimiter:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if whitespaceRegex.MatchString(ch) {
 				pos++
 			} else if ch == "," {
 				pos++

@@ -21,10 +21,13 @@ func parseNumber(number string, delimiters string) NumberToken {
 	)
 
 	var (
-		matched bool
-		mode    = Scanning
-		pos     int
-		token   = Number{Value: math.NaN(), ValueAsString: ""}
+		mode           = Scanning
+		pos            int
+		token          = Number{Value: math.NaN(), ValueAsString: ""}
+		whitespaceRe   = regexp.MustCompile(`[ \n\r\t]`)
+		digitRe        = regexp.MustCompile(`\d`)
+		nonZeroDigitRe = regexp.MustCompile(`[1-9]`)
+		exponentRe     = regexp.MustCompile(`[eE]`)
 	)
 
 	for pos < len(number) && mode != End {
@@ -32,7 +35,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 
 		switch mode {
 		case Scanning:
-			if matched, _ = regexp.MatchString("[ \\n\\r\\t]", ch); matched {
+			if whitespaceRe.MatchString(ch) {
 				pos++
 			} else if ch == "-" {
 				pos++
@@ -46,7 +49,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 				pos++
 				token.ValueAsString += "0"
 				mode = DecimalPoint
-			} else if matched, _ = regexp.MatchString("[1-9]", ch); matched {
+			} else if nonZeroDigitRe.MatchString(ch) {
 				pos++
 				token.ValueAsString += ch
 				mode = CharacteristicDigit
@@ -55,7 +58,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 			}
 
 		case CharacteristicDigit:
-			if matched, _ = regexp.MatchString("\\d", ch); matched {
+			if digitRe.MatchString(ch) {
 				pos++
 				token.ValueAsString += ch
 			} else if matchDelimiters(delimiters, ch) {
@@ -76,10 +79,10 @@ func parseNumber(number string, delimiters string) NumberToken {
 			}
 
 		case Mantissa:
-			if matched, _ = regexp.MatchString("\\d", ch); matched {
+			if digitRe.MatchString(ch) {
 				pos++
 				token.ValueAsString += ch
-			} else if matched, _ = regexp.MatchString("[eE]", ch); matched {
+			} else if exponentRe.MatchString(ch) {
 				mode = Exponent
 			} else if matchDelimiters(delimiters, ch) {
 				mode = End
@@ -105,7 +108,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 			mode = ExponentFirstDigit
 
 		case ExponentFirstDigit:
-			if matched, _ = regexp.MatchString("\\d", ch); matched {
+			if digitRe.MatchString(ch) {
 				pos++
 				token.ValueAsString += ch
 				mode = ExponentDigits
@@ -114,7 +117,7 @@ func parseNumber(number string, delimiters string) NumberToken {
 			}
 
 		case ExponentDigits:
-			if matched, _ = regexp.MatchString("\\d", ch); matched {
+			if digitRe.MatchString(ch) {
 				pos++
 				token.ValueAsString += ch
 			} else if matchDelimiters(delimiters, ch) {
