@@ -26,7 +26,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	fmt.Fprintln(os.Stdout, string(pretty))
+	if _, err := fmt.Fprintln(os.Stdout, string(pretty)); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
 
 func safeParse(input string) (any, error) {
