@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -23,7 +24,10 @@ func main() {
 		var parsed any
 		defer func() {
 			if r := recover(); r != nil {
-				c.JSON(http.StatusBadRequest, map[string]any{"error": "Invalid JSON", "code": 400})
+				if err := c.JSON(http.StatusBadRequest, map[string]any{"error": "Invalid JSON", "code": 400}); err != nil {
+					// Handle error, e.g., log or return
+					fmt.Println("Failed to write JSON response:", err)
+				}
 				parsed = nil
 			}
 		}()

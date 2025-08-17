@@ -20,13 +20,7 @@ go build ./...
 
 ## Lint code
 
-To lint your Go code for common issues:
-
-```sh
-go vet ./...
-```
-
-Or use [golangci-lint](https://github.com/golangci/golangci-lint):
+To lint your Go code for common issues, use [golangci-lint](https://github.com/golangci/golangci-lint):
 
 ```sh
 golangci-lint run ./...
