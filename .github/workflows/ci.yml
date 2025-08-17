@@ -29,7 +29,7 @@ jobs:
           version: v2.4.0
 
       - name: Build
-        run: go build ./internal/shared
+        run: go build ./...
 
       - name: Run tests
-        run: go test ./internal/shared
+        run: go test ./...
