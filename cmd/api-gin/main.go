@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -12,7 +13,10 @@ import (
 // https://gin-gonic.com/
 func main() {
 	router := gin.Default()
-	router.SetTrustedProxies(nil)
+	if err := router.SetTrustedProxies(nil); err != nil {
+		fmt.Println("Failed to set trusted proxies:", err)
+		panic(err)
+	}
 
 	router.POST("/api/v1/parse", func(c *gin.Context) {
 		body, err := io.ReadAll(c.Request.Body)
