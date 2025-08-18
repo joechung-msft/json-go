@@ -12,6 +12,7 @@ import (
 // https://gin-gonic.com/
 func main() {
 	router := gin.Default()
+	router.SetTrustedProxies(nil)
 
 	router.POST("/api/v1/parse", func(c *gin.Context) {
 		body, err := io.ReadAll(c.Request.Body)
@@ -29,6 +30,9 @@ func main() {
 			}
 		}()
 		result = shared.Parse(jsonString)
+		if result == nil {
+			return
+		}
 
 		c.JSON(http.StatusOK, result)
 	})
