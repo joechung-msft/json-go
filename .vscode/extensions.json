@@ -1,3 +1,5 @@
 {
-  "recommendations": ["humao.rest-client"]
+  "recommendations": [
+    "golang.Go"
+  ]
 }
