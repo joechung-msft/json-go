@@ -54,8 +54,8 @@
 ### Example Request
 
 ```http
-POST http://localhost:8080/parse
-Content-Type: application/json
+POST http://localhost:8080/api/v1/parse
+Content-Type: text/plain
 
 {
   "foo": "bar"
