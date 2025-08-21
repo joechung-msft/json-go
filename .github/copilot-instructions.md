@@ -45,11 +45,12 @@
 - No external APIs or services; the parser is self-contained.
 - The CLI directory (`cmd/cli/`) provides a command-line interface for parsing JSON input interactively.
 
-## API Servers: Gin & Echo
+## API Servers: Gin, Echo & Fiber
 
 - **Gin API server:** `cmd/api-gin/main.go`
 - **Echo API server:** `cmd/api-echo/main.go`
-- Both servers expose a `POST /parse` endpoint that accepts arbitrary JSON, parses it, and returns the result as JSON.
+- **Fiber API server:** `cmd/api-fiber/main.go`
+- All servers expose a `POST /parse` endpoint that accepts arbitrary JSON, parses it, and returns the result as JSON.
 
 ### Example Request
 

@@ -69,6 +69,14 @@ To start the Gin API server:
 go run cmd/api-gin/main.go
 ```
 
+### Run the Fiber API server
+
+To start the Fiber API server:
+
+```sh
+go run cmd/api-fiber/main.go
+```
+
 ## Test API with .rest Requests
 
 You can test either Gin and Echo API endpoints using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VSCode.
