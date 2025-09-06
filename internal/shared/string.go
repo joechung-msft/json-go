@@ -100,5 +100,9 @@ func parseString(s string) StringToken {
 		}
 	}
 
+	if mode != End {
+		panic("Unterminated string")
+	}
+
 	return StringToken{Skip: pos, Token: token}
 }
