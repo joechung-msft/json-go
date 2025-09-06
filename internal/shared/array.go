@@ -73,5 +73,9 @@ func parseArray(array string) ArrayToken {
 		}
 	}
 
+	if mode != End {
+		panic("Unterminated array")
+	}
+
 	return ArrayToken{Skip: pos, Token: token}
 }
