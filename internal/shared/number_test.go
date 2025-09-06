@@ -217,9 +217,9 @@ func TestEdgeCases(t *testing.T) {
 	edgeCases := []string{
 		"1.7976931348623157e+308", // Max float64
 		"2.2250738585072014e-308", // Min positive float64
-		"9007199254740991",       // Max safe integer
-		"-9007199254740991",      // Min safe integer
-		"0.0000000000000001",     // Very small decimal
+		"9007199254740991",        // Max safe integer
+		"-9007199254740991",       // Min safe integer
+		"0.0000000000000001",      // Very small decimal
 	}
 	for _, num := range edgeCases {
 		token := Parse(num).Token
@@ -265,21 +265,21 @@ func TestNumbersWithWhitespace(t *testing.T) {
 
 func TestInvalidNumbers(t *testing.T) {
 	invalidCases := []string{
-		"01",     // Leading zero
-		"00",     // Leading zero
-		"0.0.0",  // Multiple decimal points
-		"1e",     // Incomplete exponent
-		"1e+",    // Incomplete exponent
-		"1e-",    // Incomplete exponent
-		"1ee10",  // Double exponent
-		"1.2.3",  // Multiple decimal points
-		"+1",     // Leading plus (not allowed in JSON)
-		"1.",     // Trailing decimal point
-		".1",     // Leading decimal point
-		"1e1.0",  // Decimal in exponent
-		"1e1e1",  // Double exponent
-		"",       // Empty string
-		"abc",    // Non-numeric
+		"01",    // Leading zero
+		"00",    // Leading zero
+		"0.0.0", // Multiple decimal points
+		"1e",    // Incomplete exponent
+		"1e+",   // Incomplete exponent
+		"1e-",   // Incomplete exponent
+		"1ee10", // Double exponent
+		"1.2.3", // Multiple decimal points
+		"+1",    // Leading plus (not allowed in JSON)
+		"1.",    // Trailing decimal point
+		".1",    // Leading decimal point
+		"1e1.0", // Decimal in exponent
+		"1e1e1", // Double exponent
+		"",      // Empty string
+		"abc",   // Non-numeric
 	}
 
 	for _, num := range invalidCases {
