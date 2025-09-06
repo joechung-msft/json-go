@@ -16,22 +16,6 @@
 - Tests for each type are in corresponding `*_test.go` files.
 - Shared API/server test data is located in the `testdata/` folder at the project root.
 
-## Developer Workflows
-
-- **Build:**
-  - Build all binaries: `go build ./...`
-- **Format:**
-  - Format all code: `go fmt ./...`
-- **Run CLI:**
-  - Run the CLI: `go run cmd/cli/main.go`
-- **Test:**
-  - Run all tests: `go test ./...`
-  - Individual test files follow Go's standard `*_test.go` convention.
-- **Test Coverage:**
-  - Measure coverage: `go test -cover ./...`
-- **Debugging:**
-  - Parsing errors use `panic` for unexpected input or state. Check error messages for mode/state context.
-
 ## Project-Specific Patterns
 
 - Parsing functions use explicit state machines with `mode` variables and switch statements.
@@ -45,63 +29,17 @@
 - No external APIs or services; the parser is self-contained.
 - The CLI directory (`cmd/cli/`) provides a command-line interface for parsing JSON input interactively.
 
-## API Servers: Gin, Echo & Fiber
+## API Servers
 
-- **Gin API server:** `cmd/api-gin/main.go`
 - **Echo API server:** `cmd/api-echo/main.go`
 - **Fiber API server:** `cmd/api-fiber/main.go`
+- **Gin API server:** `cmd/api-gin/main.go`
 - All servers expose a `POST /parse` endpoint that accepts arbitrary JSON, parses it, and returns the result as JSON.
-
-### Example Request
-
-```http
-POST http://localhost:8080/api/v1/parse
-Content-Type: text/plain
-
-{
-  "foo": "bar"
-}
-```
-
-### Example Success Response
-
-```json
-{
-  "foo": "bar"
-}
-```
-
-### Example Error Response
-
-```json
-{
-  "error": "Failed to read request body",
-  "code": 400
-}
-```
-
-or
-
-```json
-{
-  "error": "parsing error message",
-  "code": 400
-}
-```
 
 ### Testing
 
 - Use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VSCode.
 - Open any `.rest` file in `testdata/` and send requests to test the API endpoints.
-
-## Example Usage
-
-```go
-import "json-go/internal/shared"
-
-result := json.Parse(`{"key": [1, 2, 3]}`)
-// result is a ValueToken
-```
 
 ## Conventions
 
@@ -110,5 +48,7 @@ result := json.Parse(`{"key": [1, 2, 3]}`)
 - Parsing functions are named `parse<Type>` (e.g., `parseArray`, `parseObject`).
 
 ---
+
+For general project information such as build, format, run, test, and debugging workflows, see [README.md](../README.md).
 
 If any section is unclear or missing important details, please provide feedback to improve these instructions.
