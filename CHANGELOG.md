@@ -1,5 +1,24 @@
 # Changelog
 
+## 2025-10-15
+
+- Use debian:trixie-slim as CLI runner image
+
+## 2025-10-01
+
+- Add .dockerignore
+
+## 2025-09-29
+
+- Add Dockerfile to Echo, Fiber, Gin, and CLI projects
+
+## 2025-09-05
+
+- Add more number and object parsing tests
+- Clean up copilot-instructions.md
+- Fix array and string parsing bugs
+- Fix formatting nit in number_test.go
+
 ## 2025-09-02
 
 - Update LICENSE
@@ -16,16 +35,15 @@
 
 ## 2025-08-18
 
-- Fix lint error in cmd/api-gin/main.go
 - Do not trust all proxies by default
+- Fix lint error in cmd/api-gin/main.go
 
 ## 2025-08-17
 
-- Implement API with Echo
-- Implement API with Gin
+- Implement API with Echo and Gin
 
 ## 2025-08-16
 
-- Initial commit and setup
 - Add coverage, linting, and build improvements
+- Initial commit and setup
 - Various bug fixes, CI, and documentation updates
